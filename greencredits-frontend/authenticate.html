@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Authenticate Credit</title>
+</head>
+<body>
+  <h2>Authenticate Carbon Credit</h2>
+
+  <form id="authForm">
+    <label>Credit ID: </label><br/>
+    <input type="text" id="creditId" readonly><br/><br/>
+
+    <label>IPFS CID: </label><br/>
+    <input type="text" id="ipfsCID" readonly><br/><br/>
+
+    <label>Owner: </label><br/>
+    <input type="text" id="owner" value="user123" readonly><br/><br/>
+
+    <label>Carbonmark Score:</label><br/>
+    <input type="number" id="score" min="0" max="100" required><br/><br/>
+
+    <label>Registry:</label><br/>
+    <input type="text" id="registry" value="Verra"><br/><br/>
+
+    <label>Registry Link:</label><br/>
+    <input type="url" id="registryLink" placeholder="https://registry.verra.org/..."><br/><br/>
+
+    <label>Project Type:</label><br/>
+    <input type="text" id="projectType" placeholder="Renewable Energy"><br/><br/>
+
+    <button type="submit">Authenticate</button>
+  </form>
+
+  <pre id="authOutput" style="background: #eee; padding: 10px;"></pre>
+
+  <script src="js/authenticate.js"></script>
+</body>
+</html>

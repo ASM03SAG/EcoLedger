@@ -1,8 +1,12 @@
- 
+import os
 import requests
+from dotenv import load_dotenv
 
-PINATA_API_KEY = "your-pinata-api-key"
-PINATA_SECRET_API_KEY = "your-pinata-secret"
+# Load environment variables from .env file
+load_dotenv()
+
+PINATA_API_KEY = os.getenv("PINATA_API_KEY")
+PINATA_SECRET_API_KEY = os.getenv("PINATA_SECRET_API_KEY")
 
 def upload_to_ipfs(file_bytes):
     url = "https://api.pinata.cloud/pinning/pinFileToIPFS"

@@ -11,7 +11,7 @@ connectDB();
 
 const port = process.env.PORT;
 const dbUri = process.env.MONGO_URI;
-const apiKey = process.env.WEB3_STORAGE_KEY;
+const apiKey = process.env.PINATA_API_KEY;
 
 const app = express();
 

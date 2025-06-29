@@ -1,110 +1,113 @@
 const path = require('path');
+const fs = require('fs');
 const CarbonCredit = require('../models/CarbonCredit');
+const { uploadToPinata } = require('../utils/pinata');
 
-// Upload Certificate and Save to DB
+// Controller: Upload Certificate and Save to IPFS (Pinata)
 exports.uploadCertificate = async (req, res) => {
-  const file = req.file;
-  if (!file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-
   try {
-    const ipfsCID = "mock-cid-" + Date.now();
-    const creditId = "CREDIT-" + Date.now();
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
-    const credit = new CarbonCredit({
+    const localPath = path.join(__dirname, '../../uploads', file.filename);
+
+    // Upload to IPFS using Pinata
+    const ipfsCID = await uploadToPinata(localPath);
+
+    const creditId = 'CREDIT-' + Date.now();
+
+    const newCredit = new CarbonCredit({
       creditId,
-      owner: "user123",
       ipfsCID,
-      status: "uploaded"
+      filePath: `/uploads/${file.filename}`,
+      owner: 'user123',
+      status: 'uploaded'
     });
 
-    await credit.save();
-
-    // ✅ Add this debug log:
-    console.log(`✅ Certificate saved: ${creditId}, CID: ${ipfsCID}`);
+    await newCredit.save();
 
     res.status(201).json({
-      message: 'Certificate uploaded and saved to DB',
+      message: 'Certificate uploaded to Pinata IPFS and saved to DB',
       creditId,
       ipfsCID,
       filePath: `/uploads/${file.filename}`
     });
-
-  } catch (error) {
-    console.error('❌ Upload error:', error.message);
-    res.status(500).json({ error: 'Failed to upload and store credit' });
+  } catch (err) {
+    console.error('Upload Error:', err.message);
+    res.status(500).json({ error: 'Upload failed' });
   }
 };
 
-// Authenticate Credit and Update DB
+// Controller: Authenticate Certificate using metadata (mocked)
 exports.authenticateCredit = async (req, res) => {
-  const { creditId, owner, ipfsCID, metaJson } = req.body;
-
   try {
-    const parsedMeta = JSON.parse(metaJson);
-    const score = parsedMeta.carbonmarkScore || 75;
-
-    if (score < 70) {
-      return res.status(400).json({ error: 'Score too low to authenticate' });
-    }
+    const { creditId, owner, ipfsCID, metaJson } = req.body;
 
     const credit = await CarbonCredit.findOne({ creditId });
-
     if (!credit) {
       return res.status(404).json({ error: 'Credit not found' });
     }
 
-    credit.status = 'authenticated';
-    credit.owner = owner;
-    credit.ipfsCID = ipfsCID;
-    credit.carbonmarkScore = score;
-    credit.registry = parsedMeta.registry;
-    credit.metadata = parsedMeta;
+    const parsedMeta = JSON.parse(metaJson);
+    const score = parsedMeta.carbonmarkScore || 0;
 
+    if (!parsedMeta.authenticated || score < 70) {
+      return res.status(400).json({ error: 'Score too low or not authenticated' });
+    }
+
+    // Update the document in MongoDB
+    credit.status = 'authenticated';
+    credit.metadata = {
+      carbonmarkScore: score,
+      registry: parsedMeta.registry,
+      registryLink: parsedMeta.registryLink,
+      projectType: parsedMeta.projectType,
+      authenticated: true
+    };
     await credit.save();
 
-    res.json({
-      message: 'Credit authenticated successfully',
+    res.status(200).json({
       creditId,
-      score,
       status: credit.status,
-      registry: credit.registry
+      score,
+      ipfsCID,
+      metadata: credit.metadata
     });
-
-  } catch (error) {
-    console.error('Authentication error:', error.message);
-    res.status(500).json({ error: 'Failed to authenticate credit' });
+  } catch (err) {
+    console.error('Auth Error:', err.message);
+    res.status(500).json({ error: 'Authentication failed' });
   }
 };
 
-// List Credit for Sale
+// Controller: List Authenticated Credit on Marketplace
 exports.listCredit = async (req, res) => {
-  const { creditId, price } = req.body;
-
   try {
-    const credit = await CarbonCredit.findOne({ creditId });
+    const { creditId, price } = req.body;
 
-    if (!credit || credit.status !== 'authenticated') {
-      return res.status(400).json({ error: 'Credit not found or not authenticated' });
+    const credit = await CarbonCredit.findOne({ creditId });
+    if (!credit) {
+      return res.status(404).json({ error: 'Credit not found' });
+    }
+
+    if (credit.status !== 'authenticated') {
+      return res.status(400).json({ error: 'Only authenticated credits can be listed' });
     }
 
     credit.status = 'listed';
-    credit.price = price;
+    credit.price = parseFloat(price);
     credit.listedAt = new Date();
-
     await credit.save();
 
-    res.json({
+    res.status(200).json({
       message: 'Credit listed for sale',
       creditId,
-      price,
-      listedAt: credit.listedAt,
-      status: credit.status
+      price: credit.price,
+      listedAt: credit.listedAt
     });
-
-  } catch (error) {
-    console.error('Listing error:', error.message);
-    res.status(500).json({ error: 'Failed to list credit' });
+  } catch (err) {
+    console.error('Listing Error:', err.message);
+    res.status(500).json({ error: 'Listing failed' });
   }
 };

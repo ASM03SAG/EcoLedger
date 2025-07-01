@@ -1,0 +1,278 @@
+/* ===== Color Variables ===== */
+:root {
+  --green-dark: #72B01D;
+  --green-light: #A1DB51;
+  --cream-text: #F3EFF5;
+  --gray-dark: #2C2C2C;
+  --bg-dark: #0D0A0B;
+  --card-dark: #1E1E1E;
+  --border-dark: #2A2A2A;
+}
+
+/* ===== Base & Body ===== */
+body {
+  background-color: var(--bg-dark);
+  color: var(--cream-text);
+  font-family: 'Segoe UI', sans-serif;
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--green-dark);
+  text-decoration: none;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* ===== Navbar & Footer ===== */
+.home-navbar,
+.home-footer {
+  background-color: var(--gray-dark) !important;
+  color: var(--cream-text);
+  border-bottom: 1px solid var(--border-dark);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.navbar .navbar-brand,
+.home-footer {
+  color: var(--green-dark) !important;
+  font-weight: bold;
+}
+.homepage-hero {
+  height: calc(100vh - 70px); /* Adjust if navbar height is different */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 70px;
+}
+
+.homepage-hero img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.homepage-hero .hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Hero Section ===== */
+.home-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+.home-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--green-dark);
+}
+
+.home-subtitle {
+  font-size: 1.25rem;
+  color: var(--cream-text);
+}
+
+.home-explore-btn {
+  font-weight: 600;
+}
+
+/* ===== Buttons ===== */
+.btn-success {
+  background-color: var(--green-dark);
+  border-color: var(--green-dark);
+  color: var(--bg-dark);
+}
+
+.btn-success:hover {
+  background-color: var(--green-light);
+  border-color: var(--green-light);
+  color: var(--bg-dark);
+}
+
+.btn-outline-success {
+  color: var(--green-dark);
+  border-color: var(--green-dark);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--green-dark);
+  color: var(--bg-dark);
+}
+
+.btn-outline-dark {
+  color: #bbb;
+  border-color: #666;
+}
+
+.btn-outline-dark:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* ===== Card Styling ===== */
+.card {
+  background-color: var(--card-dark);
+  color: var(--cream-text);
+  border: 1px solid var(--border-dark);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover,
+.hover-up:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.hover-up {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ===== Sections ===== */
+.home-functions-section,
+.home-team-section,
+.home-testimonial-section,
+.home-stats-section {
+  background-color: var(--bg-dark);
+  color: var(--cream-text);
+}
+
+.home-section-title {
+  color: var(--green-dark);
+}
+
+.home-desc {
+  color: var(--cream-text);
+}
+
+/* ===== Team Images ===== */
+.rounded-circle {
+  border: 3px solid var(--green-dark);
+}
+
+/* ===== Testimonials Carousel ===== */
+.carousel-inner p.lead {
+  color: var(--cream-text);
+}
+
+.carousel-inner strong {
+  color: var(--green-dark);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
+}
+
+/* ===== Stats Section ===== */
+.home-stats-section .col h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--green-dark);
+}
+
+.home-stats-section .col p {
+  color: var(--cream-text);
+  margin-bottom: 0;
+}
+
+/* ===== Modal ===== */
+.home-modal.modal.fade-in {
+  background-color: rgba(0, 0, 0, 0.75);
+  animation: fadeInUp 0.3s ease-out;
+  z-index: 1050;
+}
+
+.modal-content {
+  background-color: var(--card-dark);
+  color: var(--cream-text);
+  border: 1px solid var(--border-dark);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== Inputs ===== */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"] {
+  background-color: #2c2c2c;
+  color: var(--cream-text);
+  border: 1px solid #555;
+  border-radius: 6px;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+/* ===== Footer Cleanup ===== */
+.home-footer {
+  border-top: 1px solid var(--border-dark);
+  font-size: 14px;
+  padding-top: 20px;
+}
+
+/* ===== Animation ===== */
+.fade-in {
+  animation: fadeInUp 0.7s ease-in-out both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive Fixes ===== */
+@media (max-width: 768px) {
+  .home-title {
+    font-size: 2rem;
+  }
+
+  .home-subtitle {
+    font-size: 1rem;
+  }
+
+  .home-hero-content {
+    padding: 1rem;
+  }
+}

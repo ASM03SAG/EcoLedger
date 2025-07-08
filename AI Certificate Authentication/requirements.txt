@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-pytesseract
-pdf2image
-requests
-python-multipart
-python-dotenv

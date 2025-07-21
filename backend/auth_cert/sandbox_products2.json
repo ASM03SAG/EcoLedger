@@ -1,0 +1,149 @@
+[
+  {
+    "id": "mco2",
+    "name": "Moss Carbon Credit",
+    "short_description": "MOSS is an environmental platform that curates carbon projects within its index product, MCO2. The MCO2 product includes a variety of nature-based projects originating in the LatAm region. ",
+    "long_description": "MOSS is an environmental platform simplifying carbon compensation by curating nature-based projects within its MCO2 index product. MCO2 tokens represent carbon mitigation efforts from projects in the LatAm region, particularly focusing on the Amazon rainforest.\n\nKey Highlights:\n- The Agrocortex project, part of MCO2, aims to prevent unplanned deforestation across 186,219 hectares of pristine rainforest.\n- Over 30 years, Agrocortex will help reduce over 14 million tonnes of CO2 emissions.\n- The project area is rich in biodiversity, with surveys identifying 345 bird species, representing 18% of Brazil's bird population.\n- MOSS's projects support both environmental and social co-benefits, promoting sustainable development.\n\nMOSS's MCO2 index enables businesses and individuals to offset their carbon footprint while contributing to meaningful conservation efforts in the Amazon, fostering long-term environmental and social impacts.",
+    "sustainableDevelopmentGoals": [
+      "13",
+      "15"
+    ],
+    "assetPrices": [
+      {
+        "sourceId": "product-137-mco2",
+        "type": "product",
+        "purchasePrice": 0.1440439,
+        "baseUnitPrice": 0.110803,
+        "supply": 41632.70743712322,
+        "minFillAmount": 0.001,
+        "product": {
+          "id": "mco2",
+          "token": {
+            "id": "137-erc20-0xaa7dbd1598251f856c12f63557a4c4397c253cea",
+            "address": "0xaa7dbd1598251f856c12f63557a4c4397c253cea",
+            "decimals": 18,
+            "tokenStandard": "erc20",
+            "name": "Moss Earth : MCO2",
+            "isExAnte": false,
+            "symbol": "MCO2",
+            "tokenId": 0
+          }
+        }
+      }
+    ],
+    "projectIds": [
+      "VCS-875",
+      "VCS-844",
+      "VCS-1654",
+      "VCS-1686",
+      "VCS-1147",
+      "VCS-332",
+      "VCS-1811"
+    ],
+    "registry": "VCS",
+    "url": "https://mco2token.moss.earth/",
+    "coverImage": {
+      "url": "https://cdn.sanity.io/images/l6of5nwi/production/13d802cb67786545a69c9fb02e6305d5fe43991f-3044x1712.png",
+      "caption": ""
+    },
+    "images": [
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/7ed0a4db866d7459e79aa5b658d3a6d45f882f79-1522x859.png",
+        "caption": "MC02 Image 1"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/b0ddb77ffff8b7aa271a7b5111780cd822c05d65-1522x856.png",
+        "caption": "MC02  Image 2"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/77e2aa7feda1b8da57be7cb924780c043eac9b19-800x500.jpg",
+        "caption": "Madre de Dios Amazon REDD+"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/1a34cf6a02cf863e54ffb58d87fe6da350a17681-3953x2965.jpg",
+        "caption": "Fortaleza Ituxi REDD Project"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/8bb2d3aec8276fd5972311bb10e7cf03abc788c8-1200x900.jpg",
+        "caption": "Fortaleza Ituxi REDD Project"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/8cbbae48584def77c695e2d6bcc13e10f101eb9f-1362x636.jpg",
+        "caption": "Agrocortex REDD Project Stream"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/0bae44bfa52612366988020642e0b857f94220a7-1846x820.jpg",
+        "caption": "Agrocortex REDD Project Bird"
+      }
+    ]
+  },
+  {
+    "id": "cco2",
+    "name": "Coorest Forestry Carbon Credit",
+    "short_description": "Coorest is a blockchain platform that issues CCO2 tokens, representing 1 kg of CO2 captured by trees. Using satellite imagery and Chainlink oracles, it verifies carbon sequestration in real-time. NFTrees allow users to track absorption, with projects certified by UN auditors. Coorest supports reforestation and biodiversity while ensuring transparency.",
+    "long_description": "Coorest is a blockchain-based platform simplifying carbon compensation by making it accessible, transparent, and verifiable. The platform issues CCO2 tokens, where each token represents one kilogram of CO2 captured by trees that adhere to the Coorest Carbon Standard. Using Chainlink's oracle and satellite imagery, Coorest ensures CCO2 tokens are only issued when corresponding biomass is sequestered. By tokenizing trees as NFTs (NFTrees), Coorest offers users the ability to track carbon absorption in real-time.\n\nKey Highlights:\n- Coorest Trees generate CO2 units, enabling long-term carbon offset.\n- Blockchain ensures immutable records of compensation.\n- Projects undergo strict onboarding and verification processes and are certified by United Nations-accredited auditors.\n- Supports global reforestation and biodiversity co-benefits.\n- Immediate carbon offset options are available via purchase.\n\nCoorest's approach to carbon offset markets fosters environmental responsibility and trust by integrating cutting-edge technology with global decarbonization goals.",
+    "sustainableDevelopmentGoals": [
+      "13"
+    ],
+    "assetPrices": [
+      {
+        "sourceId": "product-137-cco2",
+        "type": "product",
+        "purchasePrice": 0.4344288,
+        "baseUnitPrice": 0.334176,
+        "supply": 4997.8974742864175,
+        "minFillAmount": 0.001,
+        "product": {
+          "id": "cco2",
+          "token": {
+            "id": "137-erc20-0x82b37070e43c1ba0ea9e2283285b674ef7f1d4e2",
+            "address": "0x82b37070e43c1ba0ea9e2283285b674ef7f1d4e2",
+            "decimals": 18,
+            "tokenStandard": "erc20",
+            "name": "Coorest : CCO2",
+            "isExAnte": false,
+            "symbol": "CCO2",
+            "tokenId": 0
+          }
+        }
+      }
+    ],
+    "projectIds": [],
+    "registry": "CCS",
+    "url": "https://coorest.io/carbon-standard",
+    "coverImage": {
+      "url": "https://cdn.sanity.io/images/l6of5nwi/production/1cf1581ae5659ffb69d289cd9332ca7d52f95ab9-2500x736.png",
+      "caption": ""
+    },
+    "images": [
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/c2550074e15a73c5b243b1234edaa76d35fecd1d-5000x3750.jpg",
+        "caption": "CCO2 Image 2"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/44f18cac2a50b0c1167438a0d63ef954ae3e6bb5-5000x3748.jpg",
+        "caption": "CCO2 Image 3"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/8b29eb046e4c8d18ba021ed69fdbf4224494dd7f-5000x2552.jpg",
+        "caption": "CCO2 Image 4"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/ca40aa5bc34fb1fbbf4708ef146dda301d284329-5000x3740.jpg",
+        "caption": "CC02 Image 5"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/a15469581413bd0f631903eb87184e640ed2cd97-600x800.webp",
+        "caption": "Coorest image 6"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/8b5a8561afb2e52650f91f122f7ef0922c0031de-470x600.webp",
+        "caption": "Coorest image 7"
+      },
+      {
+        "url": "https://cdn.sanity.io/images/l6of5nwi/production/65cbfff779ee8754735d91847a358e16f9a29936-470x680.webp",
+        "caption": "Coorest image 8"
+      }
+    ]
+  }
+]

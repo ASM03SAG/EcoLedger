@@ -1,3 +1,5 @@
+// src/components/AuthStatusView.jsx
+
 import React from 'react';
 import { FaCheckCircle, FaTimesCircle, FaInfoCircle, FaScroll, FaProjectDiagram, FaCubes } from 'react-icons/fa';
 

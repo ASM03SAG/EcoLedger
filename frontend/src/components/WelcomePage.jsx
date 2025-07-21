@@ -1,3 +1,5 @@
+//src/components/WelcomePage.jsx
+import Footer from './Footer';
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -173,15 +175,49 @@ export default function WelcomePage() {
           </div>
         </div>
       </section>
+      {/* 3-Step Flow Section */}
+      <section className="py-24 bg-gray-900 text-white px-6" aria-labelledby="steps-title">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 id="steps-title" className="text-4xl font-bold text-green-400 mb-6">3 Steps to Authenticate Your Carbon Credit</h2>
+          <p className="text-gray-300 text-lg mb-16">A simple, secure and transparent process from upload to marketplace.</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                title: 'Upload Certificate',
+                desc: 'Submit your carbon credit certificate securely to our platform.',
+                icon: '/upload-icon.svg', // place in public/icons
+              },
+              {
+                title: 'AI Verification',
+                desc: 'Our AI system validates authenticity and extracts credit data.',
+                icon: '/ai-icon.svg',
+              },
+              {
+                title: 'Marketplace Listing',
+                desc: 'Approved credits are listed for trading in our verified marketplace.',
+                icon: '/marketplace-icon.svg',
+              }
+            ].map((step, idx) => (
+              <div
+                key={idx}
+                className="bg-gray-800/80 backdrop-blur-md border border-gray-700/40 rounded-xl p-8 shadow-lg hover:shadow-green-500/30 transform transition duration-500 hover:-translate-y-2"
+              >
+                <img
+                  src={step.icon}
+                  alt={step.title}
+                  className="w-16 h-16 mx-auto mb-6"
+                />
+                <h3 className="text-xl text-green-400 font-semibold mb-3">{step.title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="py-12 text-center border-t border-gray-700/50 bg-gray-900/95 backdrop-blur-sm" role="contentinfo">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-gray-400 font-light tracking-wide">
-            &copy; {new Date().getFullYear()} GreenCredit. Pioneering sustainable innovation through technology.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

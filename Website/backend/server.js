@@ -9,9 +9,9 @@ const fs = require('fs');
 const axios = require('axios');
 const FormData = require('form-data');
 
-//const enrollAdmin = require('./wallet/enrollAdmin.js');
-//const enrollUser = require('./wallet/enrollUser.js');
-//const { submitTransaction } = require('../fabric/doc_functions');
+const enrollAdmin = require('../../wallet/enrollAdmin.js');
+const enrollUser = require('../../wallet/enrollUser.js');
+const { submitTransaction } = require('../../fabric/doc_functions');
 
 
 const app = express();

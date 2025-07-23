@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Configuration
-const ccpPath = path.resolve(__dirname, '../../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
+const ccpPath = path.resolve(__dirname, '/home/aanchal/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
 const walletPath = path.join(__dirname, '../wallet/org1');
 const contractName = 'carboncredit';
 const channelName = 'mychannel';

@@ -9,9 +9,9 @@ const fs = require('fs');
 const axios = require('axios');
 const FormData = require('form-data');
 
-const enrollAdmin = require('../../wallet/enrollAdmin.js');
-const enrollUser = require('../../wallet/enrollUser.js');
-const { submitTransaction } = require('../../fabric/doc_functions');
+//const enrollAdmin = require('../enrollAdmin.js');
+//const enrollUser = require('../enrollUser.js');
+const fabric = require('../../fabric/doc_functions');
 
 
 const app = express();
@@ -51,14 +51,14 @@ const validateUser = async (req, res, next) => {
   if (!user) return res.status(404).json({ success: false, error: 'user_not_found' });
 
   // Add this debug log
-  console.log('Comparing:', email, 'with admin list:', ADMIN_EMAILS);
+  //console.log('Comparing:', email, 'with admin list:', ADMIN_EMAILS);
   
   // Case-sensitive comparison (change to .toLowerCase() if needed)
-  req.isAdmin = ADMIN_EMAILS.includes(email);
+  //req.isAdmin = ADMIN_EMAILS.includes(email);
   req.user = user;
   
   // Debug log
-  console.log('Is admin?', req.isAdmin);
+  //console.log('Is admin?', req.isAdmin);
   
   next();
 };
@@ -204,21 +204,31 @@ app.post('/api/credits/upload', validateUser, upload.single('certificate'), asyn
 
     // 5. Attempt blockchain storage (but don't fail overall if this fails)
     try {
-      await submitTransaction('CreateCertificate',
-        blockchainCert.serialNumber,
-        blockchainCert.projectId,
-        blockchainCert.projectName,
-        blockchainCert.vintage,
-        blockchainCert.amount.toString(),
-        blockchainCert.registry,
-        blockchainCert.category,
-        blockchainCert.owner,
-        blockchainCert.fileHash
-      );
-      blockchainSuccess = true;
-    } catch (blockchainErr) {
-      console.error('Blockchain storage failed (non-critical):', blockchainErr);
-    }
+  const currentTime = new Date().toISOString();
+  await fabric.CreateCertificate({
+  serialNumber: blockchainCert.serialNumber,
+  projectId: blockchainCert.projectId,
+  projectName: blockchainCert.projectName,
+  vintage: blockchainCert.vintage,
+  amount: blockchainCert.amount,
+  issuanceDate: flaskRes.data.extracted_data.issuance_date || '',
+  registry: blockchainCert.registry,
+  category: blockchainCert.category,
+  issuedTo: flaskRes.data.extracted_data.issued_to || '',
+  owner: blockchainCert.owner,
+  carbonmarkId: flaskRes.data.carbonmark_details?.id || '',
+  carbonmarkName: flaskRes.data.carbonmark_details?.name || '',
+  fileHash: blockchainCert.fileHash,
+  createdAt: currentTime,
+  updatedAt: currentTime
+}); 
+
+
+  blockchainSuccess = true;
+} catch (blockchainErr) {
+  console.error('Blockchain storage failed (non-critical):', blockchainErr);
+}
+
 
     // 6. Update MongoDB
     await db.collection('credits').updateOne(
@@ -643,48 +653,48 @@ app.get('/api/blockchain/transaction/:txHash', async (req, res) => {
 });
 
 // Admin enrollment endpoint
-app.post('/api/enroll/admin', async (req, res) => {
-    try {
-        await enrollAdmin();
-        res.json({ success: true, message: 'Admin enrolled successfully' });
-    } catch (err) {
-        console.error('Admin enrollment error:', err);
-        res.status(500).json({ 
-            success: false, 
-            error: 'admin_enrollment_failed',
-            details: err.message 
-        });
-    }
-});
+//app.post('/api/enroll/admin', async (req, res) => {
+    //try {
+     //   await enrollAdmin();
+       // res.json({ success: true, message: 'Admin enrolled successfully' });
+   // } catch (err) {
+     //   console.error('Admin enrollment error:', err);
+       // res.status(500).json({ 
+         //   success: false, 
+           // error: 'admin_enrollment_failed',
+            //details: err.message 
+       // });
+   // }
+//});
 
 // User enrollment endpoint
-app.post('/api/enroll/user', validateUser, async (req, res) => {
-    try {
-        await enrollUser(req.user.email);
-        res.json({ success: true, message: 'User enrolled successfully' });
-    } catch (err) {
-        console.error('User enrollment error:', err);
-        res.status(500).json({ 
-            success: false, 
-            error: 'user_enrollment_failed',
-            details: err.message 
-        });
-    }
-});
+//app.post('/api/enroll/user', validateUser, async (req, res) => {
+    //try {
+       // await enrollUser(req.user.email);
+        //res.json({ success: true, message: 'User enrolled successfully' });
+    //} catch (err) {
+        //console.error('User enrollment error:', err);
+        //res.status(500).json({ 
+            //success: false, 
+           // error: 'user_enrollment_failed',
+            //details: err.message 
+       // });
+  //  }
+//});
 
 // ====================== ADMIN ROUTES ======================
 
 // Check if user is admin
-app.get('/api/admin/check', validateUser, async (req, res) => {
-  console.log('Checking admin access for:', req.user.email);
-  console.log('Admin emails:', ADMIN_EMAILS);
-  res.json({ 
-    success: true,
-    isAdmin: req.isAdmin,
-    email: req.user.email,
-    adminEmails: ADMIN_EMAILS
-  });
-});
+//app.get('/api/admin/check', validateUser, async (req, res) => {
+ // console.log('Checking admin access for:', req.user.email);
+ // console.log('Admin emails:', ADMIN_EMAILS);
+ // res.json({ 
+   // success: true,
+    //isAdmin: req.isAdmin,
+    //email: req.user.email,
+    //adminEmails: ADMIN_EMAILS
+  //});
+//});
 
 // Admin dashboard stats
 app.get('/api/admin/stats', validateUser, async (req, res) => {

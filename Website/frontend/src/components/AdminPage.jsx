@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  FaCube, 
-  FaLink, 
-  FaSearch, 
+import {
+  FaCube,
+  FaLink,
+  FaSearch,
   FaSpinner,
   FaChartLine,
   FaUserShield,
@@ -18,24 +18,37 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('blockchain');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentBlock, setCurrentBlock] = useState(null);
+  const [verified, setVerified] = useState(null); // null = loading, true = verified, false = not verified
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const verifyAdmin = async () => {
+      const email = localStorage.getItem('email');
+      if (!email) {
+        navigate('/not-authorized');
+        return;
+      }
+
       try {
-        const email = localStorage.getItem('email');
-        console.log('Checking admin status for:', email);
         const response = await fetch('http://localhost:5000/api/admin/verify', {
-          headers: { 'email': email }
+          headers: { 'email': email },
         });
-        
-        if (!response.ok) {
-          throw new Error('Admin access denied');
+
+        const result = await response.json();
+
+        if (response.ok && result.verified) {
+          setVerified(true);
+          fetchBlockchainData();
+        } else {
+          setVerified(false);
+          navigate('/not-authorized');
         }
-        fetchBlockchainData();
       } catch (err) {
-        setError(err.message);
-        navigate('/dashboard');
+        console.error('Verification failed:', err);
+        setError('Admin verification failed');
+        setVerified(false);
+        navigate('/not-authorized');
       }
     };
 
@@ -46,10 +59,9 @@ export default function AdminPage() {
     try {
       const response = await fetch('http://localhost:5000/api/blockchain/blocks');
       const data = await response.json();
-      console.log('Admin check response:', data);
       setBlocks(data.blocks);
     } catch (err) {
-      setError(err.message);
+      setError('Failed to load blockchain data');
     } finally {
       setLoading(false);
     }
@@ -62,19 +74,28 @@ export default function AdminPage() {
       const data = await response.json();
       setCurrentBlock(data);
     } catch (err) {
-      setError(err.message);
+      setError('Failed to fetch block details');
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredBlocks = blocks.filter(block => 
+  const filteredBlocks = blocks.filter(block =>
     block.blockNumber.toString().includes(searchQuery) ||
-    block.transactions.some(tx => 
+    block.transactions.some(tx =>
       tx.txId.includes(searchQuery) ||
       JSON.stringify(block.data).toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+
+  if (verified === null) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-900 text-white">
+        <FaSpinner className="animate-spin text-4xl text-emerald-400" />
+        <span className="ml-4 text-xl">Verifying admin access...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
@@ -83,7 +104,7 @@ export default function AdminPage() {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
             Admin Dashboard
           </h1>
-          <button 
+          <button
             onClick={() => navigate('/dashboard')}
             className="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
           >
@@ -104,46 +125,23 @@ export default function AdminPage() {
               <FaUserShield className="mr-2 text-emerald-400" /> Admin Tools
             </h2>
             <nav className="space-y-2">
-              <button
-                onClick={() => setActiveTab('blockchain')}
-                className={`w-full text-left px-4 py-3 rounded-lg flex items-center transition-colors ${
-                  activeTab === 'blockchain' 
-                    ? 'bg-emerald-900/50 text-emerald-400 border border-emerald-700'
-                    : 'hover:bg-gray-700'
-                }`}
-              >
-                <FaLink className="mr-3" /> Blockchain Explorer
-              </button>
-              <button
-                onClick={() => setActiveTab('transactions')}
-                className={`w-full text-left px-4 py-3 rounded-lg flex items-center transition-colors ${
-                  activeTab === 'transactions' 
-                    ? 'bg-emerald-900/50 text-emerald-400 border border-emerald-700'
-                    : 'hover:bg-gray-700'
-                }`}
-              >
-                <FaHistory className="mr-3" /> Transaction History
-              </button>
-              <button
-                onClick={() => setActiveTab('analytics')}
-                className={`w-full text-left px-4 py-3 rounded-lg flex items-center transition-colors ${
-                  activeTab === 'analytics' 
-                    ? 'bg-emerald-900/50 text-emerald-400 border border-emerald-700'
-                    : 'hover:bg-gray-700'
-                }`}
-              >
-                <FaChartLine className="mr-3" /> Platform Analytics
-              </button>
-              <button
-                onClick={() => setActiveTab('data')}
-                className={`w-full text-left px-4 py-3 rounded-lg flex items-center transition-colors ${
-                  activeTab === 'data' 
-                    ? 'bg-emerald-900/50 text-emerald-400 border border-emerald-700'
-                    : 'hover:bg-gray-700'
-                }`}
-              >
-                <FaDatabase className="mr-3" /> Raw Data Explorer
-              </button>
+              {['blockchain', 'transactions', 'analytics', 'data'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`w-full text-left px-4 py-3 rounded-lg flex items-center transition-colors ${
+                    activeTab === tab
+                      ? 'bg-emerald-900/50 text-emerald-400 border border-emerald-700'
+                      : 'hover:bg-gray-700'
+                  }`}
+                >
+                  {tab === 'blockchain' && <FaLink className="mr-3" />}
+                  {tab === 'transactions' && <FaHistory className="mr-3" />}
+                  {tab === 'analytics' && <FaChartLine className="mr-3" />}
+                  {tab === 'data' && <FaDatabase className="mr-3" />}
+                  {tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
+                </button>
+              ))}
             </nav>
           </div>
 
@@ -174,7 +172,7 @@ export default function AdminPage() {
                 ) : (
                   <div className="space-y-4">
                     {filteredBlocks.map((block) => (
-                      <div 
+                      <div
                         key={block.blockNumber}
                         className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 hover:border-emerald-500 cursor-pointer transition-colors"
                         onClick={() => getBlockDetails(block.blockNumber)}

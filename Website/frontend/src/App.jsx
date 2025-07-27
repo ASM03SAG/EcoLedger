@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import UploadPage from './components/UploadPage';
 import AuthenticationPage from './components/AuthenticationPage';
 import AdminPage from './components/AdminPage';
+import NotAuthorized from './components/NotAuthorized';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/authenticate-result" element={<AuthenticationPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/not-authorized" element={<NotAuthorized />} />
       </Routes>
     </div>
   );

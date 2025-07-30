@@ -8,7 +8,7 @@ const path = require('path');
 async function main() {
     try {
         // Load the network configuration
-        const ccpPath = path.resolve(__dirname, '../../../../../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
+        const ccpPath = path.resolve(__dirname, '../../../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
 
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 

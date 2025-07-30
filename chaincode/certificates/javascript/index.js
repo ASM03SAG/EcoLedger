@@ -1,10 +1,6 @@
-/*
- * SPDX-License-Identifier: Apache-2.0
- */
-
 'use strict';
 
-const CarbonCreditContract = require('./lib/chaincode');
+const CarbonCreditContract = require('./lib/CarbonCreditContract');
+const { Contract } = require('fabric-contract-api');
 
-module.exports.CarbonCreditContract = CarbonCreditContract;
 module.exports.contracts = [CarbonCreditContract];

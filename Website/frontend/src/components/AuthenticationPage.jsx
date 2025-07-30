@@ -36,58 +36,6 @@ export default function AuthenticationPage() {
         }
     }, [location.state, navigate]);
 
-    const handleListOnMarketplace = async () => {
-        setIsListing(true);
-        try {
-            if (!authResult || !authResult.credit_id || !authResult.extracted_data) {
-                throw new Error('Authentication data missing for listing.');
-            }
-
-            // 1. Get email from localStorage
-            const email = localStorage.getItem('email');
-            if (!email) {
-                alert('User not logged in. Please log in to list credits.');
-                setIsListing(false);
-                return;
-            }
-
-            // 2. Prepare listingData with correct keys
-            const listingData = {
-                creditId: authResult.credit_id, // Make sure credit_id is available here from authResult
-                pricePerCredit: parseFloat(listingPrice), // Changed from price_per_credit
-                description: listingDescription || `Verified carbon credits from ${authResult.extracted_data.project_name}`, // Changed from listing_description
-            };
-
-            // Call your backend API to list the credit on marketplace
-            const response = await fetch('http://localhost:5000/api/marketplace/list', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'email': email, // 3. ADD THIS EMAIL HEADER
-                },
-                body: JSON.stringify(listingData)
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                navigate('/dashboard', {
-                    state: {
-                        message: `Credit ${authResult.extracted_data.project_id} successfully listed on marketplace!`,
-                        messageType: 'success',
-                        newListing: result
-                    }
-                });
-            } else {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to list credit on marketplace');
-            }
-        } catch (error) {
-            console.error('Error listing credit:', error);
-            alert(`Failed to list credit on marketplace: ${error.message}. Please try again.`);
-        } finally {
-            setIsListing(false);
-        }
-    };
 
     if (!authResult) {
         return (
@@ -212,72 +160,6 @@ export default function AuthenticationPage() {
                     </div>
                 )}
 
-                {/* Marketplace Listing Section - Only for authenticated certificates */}
-                {isSuccess && (
-                    <div className="mb-8">
-                        <h3 className="text-2xl font-bold text-gray-300 mb-4 flex items-center">
-                            <FaStore className="mr-3 text-green-400" /> List on Marketplace
-                        </h3>
-                        <div className="bg-gray-700/30 p-6 rounded-xl border border-gray-600">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label className="block text-gray-300 text-sm font-medium mb-2">
-                                        Price per Credit (USD)
-                                    </label>
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        min="0"
-                                        placeholder="e.g., 25.00"
-                                        className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
-                                        value={listingPrice}
-                                        onChange={(e) => setListingPrice(e.target.value)}
-                                    />
-                                </div>
-                                <div className="flex items-end">
-                                    <div className="bg-gray-800/50 p-3 rounded-lg border border-gray-600 w-full">
-                                        <span className="text-gray-400 text-sm">Total Value:</span>
-                                        <p className="text-emerald-400 font-bold text-lg">
-                                            ${listingPrice && authResult.extracted_data.amount 
-                                                ? (parseFloat(listingPrice) * parseFloat(authResult.extracted_data.amount)).toLocaleString('en-US', { minimumFractionDigits: 2 })
-                                                : '0.00'
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-300 text-sm font-medium mb-2">
-                                    Listing Description (Optional)
-                                </label>
-                                <textarea
-                                    rows="3"
-                                    placeholder="Additional details about this credit batch..."
-                                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
-                                    value={listingDescription}
-                                    onChange={(e) => setListingDescription(e.target.value)}
-                                />
-                            </div>
-                            <button
-                                onClick={handleListOnMarketplace}
-                                disabled={isListing || !listingPrice}
-                                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center"
-                            >
-                                {isListing ? (
-                                    <>
-                                        <FaSpinner className="animate-spin mr-2" />
-                                        Listing on Marketplace...
-                                    </>
-                                ) : (
-                                    <>
-                                        <FaStore className="mr-2" />
-                                        List on Marketplace
-                                    </>
-                                )}
-                            </button>
-                        </div>
-                    </div>
-                )}
 
                 {/* Troubleshooting section for failed authentications */}
                 {(isUnauthenticated || isError) && (
@@ -293,24 +175,39 @@ export default function AuthenticationPage() {
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex space-x-4">
+                <div className="flex flex-col gap-4 mt-6 w-full">
+                <button
+                    onClick={() =>
+                    navigate('/enter-listing', {
+                        state: {
+                        authResult,
+                        uploadedFileName,
+                        creditId: authResult.credit?._id || authResult.credit_id,
+                        fileHash: authResult.file_hash || authResult.credit?.file_hash
+                        },
+                    })
+                    }
+                    className="bg-emerald-600 text-white py-2 px-4 rounded w-full hover:bg-emerald-700 transition"
+                >
+                    Enter Listing Details
+                </button>
+
+                <button
+                    onClick={() => navigate('/dashboard')}
+                    className="bg-gray-600 text-white py-2 px-4 rounded w-full hover:bg-gray-700 transition"
+                >
+                    ← Back to Dashboard
+                </button>
+
+                {/* Only show "Try Another Certificate" for failed authentications */}
+                {(isUnauthenticated || isError) && (
                     <button
-                        onClick={() => navigate('/dashboard')}
-                        className="flex-1 py-3 rounded-xl font-semibold text-md bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors duration-300 flex items-center justify-center"
+                    onClick={() => navigate('/upload')}
+                    className="w-full py-3 rounded-xl font-semibold text-md bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
                     >
-                        <FaArrowLeft className="mr-2" />
-                        Back to Dashboard
+                    Try Another Certificate
                     </button>
-                    
-                    {/* Only show "Try Another Certificate" for failed authentications */}
-                    {(isUnauthenticated || isError) && (
-                        <button
-                            onClick={() => navigate('/upload')}
-                            className="flex-1 py-3 rounded-xl font-semibold text-md bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                        >
-                            Try Another Certificate
-                        </button>
-                    )}
+                )}
                 </div>
             </div>
         </div>

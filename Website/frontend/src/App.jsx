@@ -9,6 +9,10 @@ import AdminPage from './components/AdminPage';
 import NotAuthorized from './components/NotAuthorized';
 import ListingDetails from './components/ListingDetails';
 import AInsights from './components/AInsights';
+import NotificationsPage from './components/NotificationsPage';
+import SettingsPage from './components/SettingsPage';
+import ProfilePage from './components/ProfilePage';
+import AdminGate from './components/AdminGate';
 
 function App() {
   return (
@@ -20,10 +24,15 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/authenticate-result" element={<AuthenticationPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin-accessed" element={<AdminPage />} />
         <Route path="/not-authorized" element={<NotAuthorized />} />
         <Route path="/enter-listing" element={<ListingDetails />} />
         <Route path="/aiinsights" element={<AInsights />}/>
+        <Route path="/notifications" element={<NotificationsPage />}/>
+        <Route path="/settings" element={<SettingsPage />}/>
+        <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="/admin" element={<AdminGate />}/>
+        
       </Routes>
     </div>
   );

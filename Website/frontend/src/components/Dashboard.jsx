@@ -226,7 +226,7 @@ return (
 
           <li 
             className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center"
-            onClick={handleAdminPanelClick}
+            onClick={() => navigate('/admin')}
           >
             <span className="mr-3 text-emerald-300">⚙️</span>
             Admin Panel
@@ -270,7 +270,7 @@ return (
         {[
           { key: "carbon", label: "ECOBOARD", icon: "🌿" },
           { key: "auth", label: "AUTHENTICATION STATUS", icon: "⚙️" },
-          { key: "admin", label: "LEADERBOARD", icon: "📈" }
+          // { key: "admin", label: "LEADERBOARD", icon: "📈" }
         ].map((tab) => (
           <button
             key={tab.key}

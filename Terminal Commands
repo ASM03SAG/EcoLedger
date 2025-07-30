@@ -1,9 +1,0 @@
-network up karooooo
-blockchain->
-node enrollAdmin.js, enrollUser.js
-backend->
-node server.js
-backend/auth_cert->
-python app.python
-frontend->
-npm run dev

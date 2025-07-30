@@ -216,44 +216,45 @@ return (
           </h4>
         </div>
         <ul className="space-y-3">
-          <li className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center">
+          <li 
+            className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center"
+            onClick={() => navigate('/profile')}
+          >
             <span className="mr-3 text-emerald-300">👤</span>
             Profile
           </li>
+
           <li 
             className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center"
-            onClick={handleAdminPanelClick}>
+            onClick={handleAdminPanelClick}
+          >
             <span className="mr-3 text-emerald-300">⚙️</span>
             Admin Panel
           </li>
-          <li className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center">
+
+          <li 
+            className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center"
+            onClick={() => navigate('/settings')}
+          >
             <span className="mr-3 text-emerald-300">⚙️</span>
             Settings
           </li>
-          <li
+
+          <li 
             className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center"
-            onClick={() => setAiDropdownOpen(!aiDropdownOpen)}
+            onClick={() => {
+              setAiDropdownOpen(!aiDropdownOpen);
+              navigate('/aiinsights');
+            }}
           >
             <span className="mr-3 text-emerald-300">🤖</span>
-            AI Insights {aiDropdownOpen ? "▴" : "▾"}
+            AI Insights 
           </li>
-          {aiDropdownOpen && (
-            <ul className="ml-6 space-y-2 text-sm text-emerald-100 overflow-hidden">
-              <li className="cursor-pointer hover:text-emerald-300 p-2 rounded transition-all duration-200">
-                <span className="mr-2">📈</span>
-                Emission Forecast
-              </li>
-              <li className="cursor-pointer hover:text-emerald-300 p-2 rounded transition-all duration-200">
-                <span className="mr-2">🔥</span>
-                Future Prediction
-              </li>
-              <li className="cursor-pointer hover:text-emerald-300 p-2 rounded transition-all duration-200">
-                <span className="mr-2">🌿</span>
-                Sustainability Score
-              </li>
-            </ul>
-          )}
-          <li className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center">
+
+          <li 
+            className="cursor-pointer hover:bg-emerald-800/50 p-3 rounded-lg transition-all duration-300 flex items-center"
+            onClick={() => navigate('/notifications')}
+          >
             <span className="mr-3 text-emerald-300">🔔</span>
             Notifications
           </li>

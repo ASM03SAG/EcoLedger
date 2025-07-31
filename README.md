@@ -1,5 +1,6 @@
 # EcoLedger
-
+https://chatgpt.com/share/688aecd6-ea00-8001-9424-5e224ca6aa0f
+ppt content shanvi
 
 A platform that enables carbon credit authentication, verification, and trading through AI-powered analysis, decentralized storage, and permissioned blockchain governance.
 
